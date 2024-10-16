@@ -290,6 +290,67 @@ components:
         button:
           $ref: '#/components/schemas/Button'
 
+    CarouselMessage:
+      description: >
+        When `type = carousel`
+      allOf:
+        - $ref: '#/components/schemas/MessageBase'
+        - $ref: '#/components/schemas/CarouselMessagePayload'
+
+    CarouselMessagePayload:
+      type: object
+      required:
+        - type
+        - slides
+      properties:
+        type:
+          type: string
+          enum:
+            - carousel
+        slides:
+          type: array
+          items:
+            $ref: '#/components/schemas/CarouselSlide'
+          description: A list of slides in the carousel
+
+    CarouselSlide:
+      type: object
+      properties:
+        text:
+          type: string
+          description: The main text of the slide
+        description:
+          type: string
+          nullable: true
+          description: Additional description text for the slide (optional)
+        media_uuid:
+          type: string
+          nullable: true
+          description: The UUID of the media for this slide (optional)
+        buttons:
+          type: array
+          items:
+            $ref: '#/components/schemas/CarouselButton'
+          description: A list of buttons for the slide
+
+    CarouselButton:
+      type: object
+      required:
+        - text
+      properties:
+        text:
+          type: string
+          description: The text label for the button
+        url:
+          type: string
+          nullable: true
+          description: A URL to open when the button is clicked (optional)
+        payload:
+          type: string
+          nullable: true
+          description: A payload to send when the button is clicked (optional)
+
+
     ImageUuid:
       type: object
       properties:
@@ -475,6 +536,7 @@ components:
         - $ref: '#/components/schemas/GetFileMessage'
         - $ref: '#/components/schemas/TextInputResponseMessage'
         - $ref: '#/components/schemas/TextInputRequestMessage'
+        - $ref: '#/components/schemas/CarouselMessage'
 
     SendMessage:
       oneOf:
